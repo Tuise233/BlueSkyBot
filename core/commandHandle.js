@@ -24,7 +24,7 @@ function checkKeyword(fromNumber, senderNumber, message){
                 if(result.length > 1){
                     sendGroupMessage(fromNumber, result[random(0, result.length)]);
                 } else {
-                    sendGroupMessage(fromNumber, getWordsValue(keyword));
+                    sendGroupMessage(fromNumber, result[0]);
                 }
             }
             return;
