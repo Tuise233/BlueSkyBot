@@ -1,6 +1,6 @@
 const http = require("http");
-const { checkCommand, registerCommand } = require("./feature/command");
-const { groupAddKeyword, groupRemoveKeyword, sendBlueSkyPhoto, disableBlueSky, enableBlueSky, commandInit } = require("./feature/commandHandle");
+const { checkCommand, registerCommand } = require("./core/command");
+const { groupAddKeyword, groupRemoveKeyword, sendBlueSkyPhoto, disableBlueSky, enableBlueSky, commandInit } = require("./core/commandHandle");
 
 //机器人配置
 const listenerPort = 12000;

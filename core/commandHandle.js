@@ -1,5 +1,5 @@
 const { selfPics } = require("../assets/photos");
-const { sendGroupMessage } = require("../core/botapi");
+const { sendGroupMessage } = require("./botapi");
 const { addWord, getWordsKey, deleteWord } = require("../util/words")
 
 let keywords = [];

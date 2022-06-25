@@ -1,4 +1,4 @@
-const { sendGroupMessage, sendPrivateMessage } = require("../core/botapi");
+const { sendGroupMessage, sendPrivateMessage } = require("./botapi");
 const { muteGroups } = require("./commandHandle");
 
 let commands = [];
