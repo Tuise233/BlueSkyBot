@@ -1,3 +1,20 @@
 {
-    
+	"782675156": {
+		"753639918": {
+			"money": 1000,
+			"cooldown": "",
+			"value": 500,
+			"slaves": [],
+			"isSlave": false,
+			"owner": ""
+		},
+		"2039203690": {
+			"money": 600,
+			"cooldown": "",
+			"value": 0,
+			"slaves": [],
+			"isSlave": false,
+			"owner": ""
+		}
+	}
 }
