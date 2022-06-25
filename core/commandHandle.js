@@ -10,6 +10,10 @@ function commandInit() {
     console.log(`兰天机器人 | 获取默认词库成功,词库数量: ${keywords.length}`);
 }
 
+function showGitHub(fromNumber, senderNumber){
+    sendGroupMessage(fromNumber, "兰天机器人项目地址：https://github.com/Tuise233/BlueSkyBot");
+}
+
 function groupAddKeyword(fromNumber, senderNumber, params) {
     addWord(params[0], params[1]);
     sendGroupMessage(fromNumber, "作为一名专业的播音主持人，你让我记住什么，我肯定会记得非常清楚");
@@ -52,6 +56,7 @@ function random(start, end) {
 module.exports = {
     muteGroups,
     commandInit,
+    showGitHub,
     groupAddKeyword,
     groupRemoveKeyword,
     sendBlueSkyPhoto,

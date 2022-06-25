@@ -1,6 +1,6 @@
 const http = require("http");
 const { checkCommand, registerCommand } = require("./core/command");
-const { groupAddKeyword, groupRemoveKeyword, sendBlueSkyPhoto, disableBlueSky, enableBlueSky, commandInit } = require("./core/commandHandle");
+const { groupAddKeyword, groupRemoveKeyword, sendBlueSkyPhoto, disableBlueSky, enableBlueSky, commandInit, showGitHub } = require("./core/commandHandle");
 
 //机器人配置
 const listenerPort = 12000;
@@ -27,6 +27,7 @@ function botInitialize() {
 
     //注册命令
     commandInit();
+    registerCommand("?兰天源码", [], showGitHub, false);
     registerCommand("?添加词库", ["关键词", "回答"], groupAddKeyword);
     registerCommand("?删除词库", ["关键词"], groupRemoveKeyword);
     registerCommand("?来张自拍", [], sendBlueSkyPhoto);
