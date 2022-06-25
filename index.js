@@ -1,6 +1,6 @@
 const http = require("http");
 const { checkCommand, registerCommand } = require("./core/command");
-const { groupAddKeyword, groupRemoveKeyword, sendBlueSkyPhoto, disableBlueSky, enableBlueSky, commandInit, showGitHub } = require("./core/commandHandle");
+const { groupAddKeyword, groupRemoveKeyword, sendBlueSkyPhoto, disableBlueSky, enableBlueSky, commandInit, showGitHub, checkKeyword } = require("./core/commandHandle");
 
 //机器人配置
 const listenerPort = 12000;
@@ -65,7 +65,9 @@ function onGroupMessage(groupObject, senderObject, message) {
     try {
         console.log(`兰天机器人 | 收到群聊消息 | QQ群: ${groupObject["group"]} | 发送者: ${senderObject["qq"]} | 内容: ${message}`);
         if (Groups.includes(groupObject["group"])) {
-            checkCommand("group", groupObject["group"], senderObject["qq"], message);
+            if(!checkCommand("group", groupObject["group"], senderObject["qq"], message)){
+                checkKeyword(groupObject["group"], senderObject["qq"], message);
+            }
         }
     } catch (error) {
         console.log(error);

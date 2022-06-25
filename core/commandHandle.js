@@ -1,6 +1,6 @@
 const { selfPics } = require("../assets/photos");
 const { sendGroupMessage } = require("./botapi");
-const { addWord, getWordsKey, deleteWord } = require("../util/words")
+const { addWord, getWordsKey, deleteWord, getWordsValue } = require("../util/words")
 
 let keywords = [];
 let muteGroups = [];
@@ -8,6 +8,28 @@ let muteGroups = [];
 function commandInit() {
     keywords = getWordsKey();
     console.log(`兰天机器人 | 获取默认词库成功,词库数量: ${keywords.length}`);
+}
+
+/*
+监听是否触发关键词
+fromNumber: QQ群号 string
+senderNumber: 发送者QQ号 string
+message: 消息文本 string
+*/
+function checkKeyword(fromNumber, senderNumber, message){
+    keywords.forEach((keyword) => {
+        if(message.includes(keyword)){
+            let result = getWordsValue(keyword);
+            if(result.length > 0){
+                if(result.length > 1){
+                    sendGroupMessage(fromNumber, result[random(0, result.length)]);
+                } else {
+                    sendGroupMessage(fromNumber, getWordsValue(keyword));
+                }
+            }
+            return;
+        }
+    });
 }
 
 function showGitHub(fromNumber, senderNumber){
@@ -54,8 +76,10 @@ function random(start, end) {
 }
 
 module.exports = {
+    keywords,
     muteGroups,
     commandInit,
+    checkKeyword,
     showGitHub,
     groupAddKeyword,
     groupRemoveKeyword,

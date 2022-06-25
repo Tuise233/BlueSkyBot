@@ -4,6 +4,7 @@ const { muteGroups } = require("./commandHandle");
 let commands = [];
 
 /*
+注册指令
 cmd: 指令 string
 params: 参数 array
 handle: 函数 function
@@ -31,31 +32,32 @@ function registerCommand(cmd, params, handle, mute = true) {
 }
 
 /*
+监听是否触发指令
 type: 类型 private, group string
 fromNumber: QQ帐号或QQ群号 string
 senderNumber: QQ帐号或QQ群成员帐号
 word: 完整消息文本内容 string
 */
-function checkCommand(type, fromNumber, senderNumber, word) {
+function checkCommand(type, fromNumber, senderNumber, message) {
     let cmd = null;
-    if (word[0] == "?") {
-        if (word.includes("-")) {
-            cmd = word.split("-")[0];
+    if (message[0] == "?") {
+        if (message.includes("-")) {
+            cmd = message.split("-")[0];
         } else {
-            cmd = word;
+            cmd = message;
         }
 
         for (let i = 0; i < commands.length; i++) {
             if (commands[i].command == cmd) {
                 //判断是否有参数
-                if (word.split("-")[0] == word && commands[i].params.length == 0) {
+                if (message.split("-")[0] == message && commands[i].params.length == 0) {
                     //没有参数，执行handle
                     if (type == "group" && muteGroups.includes(fromNumber) && commands[i].mute == true) return;
                     commands[i].handle(fromNumber, senderNumber);
                 } else {
                     //有参数，判断参数是否完整
-                    let len = word.split("-").length;
-                    let params = word.split("-").splice(1, len);
+                    let len = message.split("-").length;
+                    let params = message.split("-").splice(1, len);
                     if (params.length == commands[i].params.length) {
                         //参数完整
                         if (type == "group" && muteGroups.includes(fromNumber) && commands[i].mute == true) return;
@@ -83,10 +85,11 @@ function checkCommand(type, fromNumber, senderNumber, word) {
                         }
                     }
                 }
-                break;
+                return true;
             }
         }
     }
+    return false;
 }
 
 module.exports = {
