@@ -1,7 +1,7 @@
 const http = require("http");
 const { checkCommand, registerCommand } = require("./core/command");
 const { groupAddKeyword, groupRemoveKeyword, sendBlueSkyPhoto, disableBlueSky, enableBlueSky, commandInit, showGitHub, checkKeyword } = require("./core/commandHandle");
-const { catchSlave, releaseSlave } = require("./util/slave");
+const { catchSlave, releaseSlave, burnBuilding } = require("./util/slave");
 
 //机器人配置
 const listenerPort = 12000;
@@ -9,8 +9,8 @@ const botQQ = 1587827933;
 
 let Groups = [
     782675156,
-    // 737580252,
-    // 273981842,
+    //737580252,
+    273981842,
     // 102874450
 ];
 
@@ -38,6 +38,7 @@ function botInitialize() {
     //奴隶系统指令
     registerCommand("?抓纵火犯", ["At目标"], catchSlave);
     registerCommand("?放纵火犯", ["At目标"], releaseSlave);
+    registerCommand("?烧写字楼", [], burnBuilding);
 }
 
 function eventListener(object) {

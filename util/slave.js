@@ -73,8 +73,24 @@ function getMoney(groupNumber, userNumber){
     return getSlaveData()[groupNumber][userNumber]["money"];
 }
 
+function giveMoney(groupNumber, userNumber, money){
+    let data = getSlaveData();
+    data[groupNumber][userNumber]["money"] += money;
+    updateSlaveData(data);
+}
+
 function getValue(groupNumber, userNumber){
     return getSlaveData()[groupNumber][userNumber]["value"];
+}
+
+function giveValue(groupNumber, userNumber, value){
+    let data = getSlaveData();
+    data[groupNumber][userNumber]["value"] += value;
+    updateSlaveData(data);
+}
+
+function getSlaves(groupNumber, userNumber){
+    return getSlaveData()[groupNumber][userNumber]["slaves"];
 }
 
 function attachSlaveToOwner(groupNumber, ownerNumber, slaveNumber){
@@ -103,6 +119,25 @@ function detachSlaveToOwner(groupNumber, ownerNumber, slaveNumber){
     updateSlaveData(data);
 }
 
+function getCooldown(groupNumber, ownerNumber){
+    return getSlaveData()[groupNumber][ownerNumber]["cooldown"];
+}
+
+function checkCooldownOver(groupNumber, ownerNumber){
+    let cooldown = getCooldown(groupNumber, ownerNumber);
+    return Math.abs(Number(cooldown) - Number(Date.now())) >= (5 * 60 * 1000);
+}
+
+function updateCooldown(groupNumber, ownerNumber){
+    let data = getSlaveData();
+    data[groupNumber][ownerNumber]["cooldown"] = Date.now();
+    updateSlaveData(data);
+}
+
+function random(start, end) {
+    return Math.floor(Math.random() * (end - start) + start)
+}
+
 /* ====== 功能函数 ====== */
 function catchSlave(groupNumber, ownerNumber, slaveNumber){
     if(!isAt(slaveNumber[0])) return;
@@ -115,6 +150,11 @@ function catchSlave(groupNumber, ownerNumber, slaveNumber){
     }
     if(ownerNumber == slaveNumber){
         sendGroupMessage(groupNumber, "你想抓自己做自己的纵火犯？什么自虐癖");
+        return;
+    }
+    //判断目标是否有奴隶
+    if(getSlaveAmount(groupNumber, slaveNumber) > 0){
+        sendGroupMessage(groupNumber, "他现在拥有纵火犯，你不能抓他成为你的纵火犯");
         return;
     }
     //判断目标是否已经是别人的奴隶
@@ -159,7 +199,50 @@ function releaseSlave(groupNumber, ownerNumber, slaveNumber){
     }
 }
 
+function burnBuilding(groupNumber, ownerNumber){
+    initSlaveSystem(groupNumber, ownerNumber);
+    if(isSlave(groupNumber, ownerNumber)){
+        sendGroupMessage(groupNumber, "你现在是其他人的纵火犯，你不能主动烧写字楼");
+        return;
+    }
+    if(getSlaveAmount(groupNumber, ownerNumber) == 0){
+        sendGroupMessage(groupNumber, "你目前没有纵火犯，无法烧写字楼");
+        return;
+    }
+    let canBurn = false;
+    let coolDown = getCooldown(groupNumber, ownerNumber);
+    if(coolDown == ""){
+        canBurn = true;
+    } else {
+        if(checkCooldownOver(groupNumber, ownerNumber)){
+            canBurn = true;
+        } else {
+            sendGroupMessage(groupNumber, "进行一次行动后你有五分钟的藏身时间，避免被关进松山派出所");
+        }
+    }
+
+    if(canBurn){
+        let slaves = getSlaves(groupNumber, ownerNumber);
+        let slave = slaves[random(0, slaves.length)];
+        sendGroupMessage(groupNumber, `${At(ownerNumber)}\n你随机指派你的纵火犯${At(slave)}烧滨海写字楼`);
+        updateCooldown(groupNumber, ownerNumber);
+        setTimeout(() => {
+            let burnResult = random(0, 100) < 60 ? false : true;
+            if(!burnResult){
+                sendGroupMessage(groupNumber, `${At(ownerNumber)}\n你的纵火犯${At(slave)}在准备烧滨海写字楼的准备过程中被松山派出所的片警抓住了，他现在不再属于你`);
+                detachSlaveToOwner(groupNumber, ownerNumber, slave);
+            } else {
+                let money = random(100, 501);
+                giveMoney(groupNumber, ownerNumber, money);
+                giveValue(groupNumber, slave, 100);
+                sendGroupMessage(groupNumber, `${At(ownerNumber)}\n你的纵火犯${At(slave)}成功烧毁滨海写字楼，并拿走前台的${money}刀乐\n当前余额：${getMoney(groupNumber, ownerNumber)}刀乐\n当前纵火犯身价：${getValue(groupNumber, slave)}刀乐`);
+            }
+        }, 5000);
+    }
+}
+
 module.exports = {
     catchSlave,
-    releaseSlave
+    releaseSlave,
+    burnBuilding
 }

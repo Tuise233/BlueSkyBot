@@ -1,17 +1,70 @@
 {
-	"782675156": {
-		"753639918": {
+	"273981842": {
+		"185729487": {
 			"money": 1000,
 			"cooldown": "",
 			"value": 500,
+			"slaves": [],
+			"isSlave": true,
+			"owner": 531172276
+		},
+		"531172276": {
+			"money": 354,
+			"cooldown": 1656240688675,
+			"value": 500,
+			"slaves": [
+				"768295235",
+				"185729487"
+			],
+			"isSlave": false,
+			"owner": ""
+		},
+		"768295235": {
+			"money": 1000,
+			"cooldown": "",
+			"value": 600,
+			"slaves": [],
+			"isSlave": true,
+			"owner": 531172276
+		},
+		"1649991605": {
+			"money": 600,
+			"cooldown": 1656240701183,
+			"value": 0,
 			"slaves": [],
 			"isSlave": false,
 			"owner": ""
 		},
 		"2039203690": {
-			"money": 600,
+			"money": 100,
+			"cooldown": 1656240456900,
+			"value": 0,
+			"slaves": [
+				"2641604313"
+			],
+			"isSlave": false,
+			"owner": ""
+		},
+		"2641604313": {
+			"money": 1000,
+			"cooldown": "",
+			"value": 500,
+			"slaves": [],
+			"isSlave": true,
+			"owner": 2039203690
+		},
+		"2039203690 ": {
+			"money": 1000,
 			"cooldown": "",
 			"value": 0,
+			"slaves": [],
+			"isSlave": false,
+			"owner": ""
+		},
+		"531172276 ": {
+			"money": 1000,
+			"cooldown": "",
+			"value": 500,
 			"slaves": [],
 			"isSlave": false,
 			"owner": ""
