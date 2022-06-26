@@ -1,7 +1,7 @@
 const http = require("http");
 const { checkCommand, registerCommand } = require("./core/command");
 const { groupAddKeyword, groupRemoveKeyword, sendBlueSkyPhoto, disableBlueSky, enableBlueSky, commandInit, showGitHub, checkKeyword } = require("./core/commandHandle");
-const { catchSlave, releaseSlave, burnBuilding } = require("./util/slave");
+const { catchSlave, releaseSlave, burnBuilding, stickPoster } = require("./util/slave");
 
 //机器人配置
 const listenerPort = 12000;
@@ -35,10 +35,11 @@ function botInitialize() {
     registerCommand("?兰天闭嘴", [], disableBlueSky, false);
     registerCommand("?兰天说话", [], enableBlueSky, false);
 
-    //奴隶系统指令
+    //奴纵火犯统指令
     registerCommand("?抓纵火犯", ["At目标"], catchSlave);
     registerCommand("?放纵火犯", ["At目标"], releaseSlave);
     registerCommand("?烧写字楼", [], burnBuilding);
+    registerCommand("?贴海报", [], stickPoster);
 }
 
 function eventListener(object) {
