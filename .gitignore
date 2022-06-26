@@ -107,3 +107,5 @@ node_modules/mime-types/index.js
 node_modules/mime-types/LICENSE
 node_modules/mime-types/package.json
 node_modules/mime-types/README.md
+assets/slave.json
+assets/words.json
