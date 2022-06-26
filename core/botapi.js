@@ -13,7 +13,7 @@ function sendGroupMessage(toGroup, message) {
             anonymous: false
         }
     }).then((res) => {
-        console.log(`发送群聊消息 | ${toGroup} | ${message}`);
+        console.log(`兰天机器人 | 发送群聊消息 | ${toGroup} | ${message}`);
     }).catch((error) => {
         console.log(`群组消息发送错误\n${error}`);
     });
@@ -28,7 +28,7 @@ function sendPrivateMessage(toQQ, message) {
             msg: message
         }
     }).then((res) => {
-        console.log(`发送私聊消息 | ${toQQ} | ${message}`);
+        console.log(`兰天机器人 | 发送私聊消息 | ${toQQ} | ${message}`);
     }).catch((error) => {
         console.log(`私聊消息发送错误\n${error}`);
     });
