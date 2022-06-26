@@ -12,7 +12,26 @@ function updateSlaveData(dataString) {
 }
 
 function resolveSlaveNumber(slaveNumber) {
-    return slaveNumber.replace("[", "").replace("]", "").replace("@", "");
+    let start = -1, end = -1;
+    for(let i = 0; i < slaveNumber.length; i++){
+        if(slaveNumber[i] == "["){
+            start = i + 1;
+            break;
+        }
+    }
+    
+    if(start != -1){
+        for(let i = 0; i < slaveNumber.length; i++){
+            if(slaveNumber[i] == "]" && i > start){
+                end = i;
+                break;
+            }
+        }
+
+        if(end != -1){
+            return slaveNumber.substring(start, end).replace("@", "");
+        } else return "undefined";
+    } else return "undefined";
 }
 
 function initSlaveSystem(groupNumber, userNumber = null, slaveNumber = null) {
