@@ -1,7 +1,7 @@
 const http = require("http");
 const { checkCommand, registerCommand } = require("./core/command");
 const { groupAddKeyword, groupRemoveKeyword, sendBlueSkyPhoto, disableBlueSky, enableBlueSky, commandInit, showGitHub, checkKeyword } = require("./core/commandHandle");
-const { catchSlave, releaseSlave, burnBuilding, stickPoster } = require("./util/slave");
+const { catchSlave, releaseSlave, burnBuilding, stickPoster, createMoney, receiveMoney } = require("./util/slave");
 
 //机器人配置
 const listenerPort = 12000;
@@ -34,8 +34,9 @@ function botInitialize() {
     registerCommand("?来张自拍", [], sendBlueSkyPhoto);
     registerCommand("?兰天闭嘴", [], disableBlueSky, false);
     registerCommand("?兰天说话", [], enableBlueSky, false);
+    registerCommand("?好马王", [], receiveMoney);
 
-    //奴纵火犯统指令
+    //纵火犯统指令
     registerCommand("?抓纵火犯", ["At目标"], catchSlave);
     registerCommand("?放纵火犯", ["At目标"], releaseSlave);
     registerCommand("?烧写字楼", [], burnBuilding);
