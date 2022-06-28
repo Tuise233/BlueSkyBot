@@ -1,6 +1,6 @@
 const fs = require("fs");
 const { resolve } = require("path");
-const { sendGroupMessage } = require("../core/botapi");
+const { sendGroupMessage, sendGroupCardMessage, sendPrivateMessage } = require("../core/botapi");
 const slavePath = `${resolve("./")}\\assets\\slave.json`;
 
 function getSlaveData() {
@@ -170,18 +170,18 @@ function updateCooldown(groupNumber, ownerNumber) {
     updateSlaveData(data);
 }
 
-function getRandomSlaves(groupNumber, userNumber){
+function getRandomSlaves(groupNumber, userNumber) {
     let ownerSlaves = getSlaves(groupNumber, userNumber);
     let transAmount = random(1, ownerSlaves.length);
     let shuffled = ownerSlaves.slice(0), i = ownerSlaves.length, min = i - transAmount, temp, index;
-    while(i-- > min){
+    while (i-- > min) {
         index = Math.floor((i + 1) * Math.random());
         temp = shuffled[index];
         shuffled[index] = shuffled[i];
         shuffled[i] = temp;
     }
     let transSlaves = shuffled.slice(min);
-    return transSlaves;
+    return [transSlaves, transAmount];
 }
 
 function random(start, end) {
@@ -265,7 +265,7 @@ function burnBuilding(groupNumber, ownerNumber) {
         sendGroupMessage(groupNumber, `${At(ownerNumber)}\n你随机指派你的纵火犯${At(slave)}烧滨海写字楼`);
         updateCooldown(groupNumber, ownerNumber);
         setTimeout(() => {
-            let burnResult = random(0, 100) < 60 ? false : true;
+            let burnResult = random(0, 100) < 30 ? false : true;
             if (!burnResult) {
                 sendGroupMessage(groupNumber, `${At(ownerNumber)}\n你的纵火犯${At(slave)}在准备烧滨海写字楼的准备过程中被松山派出所的片警抓住了，他现在不再属于你`);
                 detachSlaveToOwner(groupNumber, ownerNumber, slave);
@@ -300,7 +300,7 @@ function stickPoster(groupNumber, ownerNumber) {
         sendGroupMessage(groupNumber, `${At(ownerNumber)}\n你随机指派你的纵火犯${At(slave)}在罗源大街贴海报\n当前余额：${getMoney(groupNumber, ownerNumber)}个一中校徽`);
         updateCooldown(groupNumber, ownerNumber);
         setTimeout(() => {
-            let stickResult = random(0, 100) < 60 ? false : true;
+            let stickResult = random(0, 100) < 30 ? false : true;
             if (!stickResult) {
                 sendGroupMessage(groupNumber, `${At(ownerNumber)}\n你的纵火犯${At(slave)}在罗源大街贴海报被罗源城关派出所的片警抓住了，他现在不再属于你`);
                 detachSlaveToOwner(groupNumber, ownerNumber, slave);
@@ -311,9 +311,9 @@ function stickPoster(groupNumber, ownerNumber) {
                     return;
                 }
                 let owner = owners[random(0, owners.length)];
-                let transSlaves = getRandomSlaves(groupNumber, owner);
-                // let ownerSlaves = getSlaves(groupNumber, owner);
-                // //挑选随机数量的目标奴隶
+                //let transSlaves = getRandomSlaves(groupNumber, owner);
+                //let ownerSlaves = getSlaves(groupNumber, owner);
+                //挑选随机数量的目标奴隶
                 // let transAmount = random(1, ownerSlaves.length);
                 // let shuffled = ownerSlaves.slice(0), i = ownerSlaves.length, min = i - transAmount, temp, index;
                 // while (i-- > min) {
@@ -323,6 +323,7 @@ function stickPoster(groupNumber, ownerNumber) {
                 //     shuffled[i] = temp;
                 // }
                 // let transSlaves = shuffled.slice(min);
+                let [transSlaves, transAmount] = getRandomSlaves(groupNumber, owner);
                 let message = `${At(ownerNumber)}\n你的纵火犯${At(slave)}在罗源大街贴满了海报，${At(owner)}的${transAmount}位纵火犯选择成为你的纵火犯，他们分别是：\n`;
                 for (let j = 0; j < transSlaves.length; j++) {
                     message += `${At(transSlaves[j])}\n`;
