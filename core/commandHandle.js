@@ -17,9 +17,9 @@ senderNumber: 发送者QQ号 string
 message: 消息文本 string
 */
 function checkKeyword(fromNumber, senderNumber, message){
-    keywords.forEach((keyword) => {
-        if(message.includes(keyword)){
-            let result = getWordsValue(keyword);
+    for(let i = 0; i < keywords.length; i++){
+        if(message.includes(keywords[i])){
+            let result = getWordsValue(keywords[i]);
             if(result.length > 0){
                 if(result.length > 1){
                     sendGroupMessage(fromNumber, result[random(0, result.length)]);
@@ -27,9 +27,9 @@ function checkKeyword(fromNumber, senderNumber, message){
                     sendGroupMessage(fromNumber, result[0]);
                 }
             }
-            return;
+            break;
         }
-    });
+    }
 }
 
 function showGitHub(fromNumber, senderNumber){
